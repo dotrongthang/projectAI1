@@ -45,9 +45,9 @@ public class Methods {
         System.out.println("I: 9");
         System.out.println("O: 10");
         System.out.println("------------------");
-        System.out.println("Mời bạn nhập tiên đề 1:");
+        System.out.println("Mời bạn nhập tiền đề 1:");
         q1 = scanner.nextInt();
-        System.out.println("Mời bạn nhập tiên đề 2:");
+        System.out.println("Mời bạn nhập tiền đề 2:");
         q2 = scanner.nextInt();
         System.out.println("Mời bạn nhập mệnh đề:");
         q3 = scanner.nextInt();
