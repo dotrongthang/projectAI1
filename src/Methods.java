@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Methods {
     public ArrayList<Clause> clauses = new ArrayList<>();
@@ -34,38 +36,91 @@ public class Methods {
     }
 
     public void case1(){
-        System.out.println("A: 1");
-        System.out.println("E: 2");
-        System.out.println("P: 3");
-        System.out.println("B: 4");
-        System.out.println("T: 5");
-        System.out.println("D: 6");
-        System.out.println("K: 7");
-        System.out.println("G: 8");
-        System.out.println("I: 9");
-        System.out.println("O: 10");
-        System.out.println("------------------");
-        System.out.println("Mời bạn nhập tiền đề 1:");
-        q1 = scanner.nextInt();
-        System.out.println("Mời bạn nhập tiền đề 2:");
-        q2 = scanner.nextInt();
-        System.out.println("Mời bạn nhập mệnh đề:");
-        q3 = scanner.nextInt();
-        System.out.println("Mời bạn nhập công thức diễn dịch (1 -4):");
-        index = scanner.nextInt();
+        String s;
+        boolean b;
 
-        System.out.println("Lựa chọn của bạn là: " + clauses.get(q1-1).getSign() +
-                clauses.get(q2-1).getSign() + clauses.get(q3-1).getSign() + "-" + index);
+        do {
+            System.out.println("------------------");
+            System.out.println("Mời bạn nhập tam đoạn luận bất kì dạng xxx-y:" + "\n"
+                    + "(Trong đó x thuộc {A,E,P,B,T,D,K,G,I,O}, y thuộc [1,4]");
+            s = scanner.nextLine();
+            b = checkString(s);
+            if (!b){
+                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
+                System.out.println("Bạn nhập không đúng định dạng, vui lòng nhập lại!");
+                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
+            }
+        }while (!b);
+
+        char[] c = s.toCharArray();
+        if (convert(String.valueOf(c[0])) >= 0){
+            q1 = convert(String.valueOf(c[0]));
+        }
+        if (convert(String.valueOf(c[1])) >= 0){
+            q2 = convert(String.valueOf(c[1]));
+        }
+        if (convert(String.valueOf(c[2])) >= 0){
+            q3 = convert(String.valueOf(c[2]));
+        }
+        index = Integer.parseInt(String.valueOf(c[4]));
+
+//        System.out.println("Lựa chọn của bạn là: " + clauses.get(q1).getSign() +
+//                clauses.get(q2).getSign() + clauses.get(q3).getSign() + "-" + index);
 
         System.out.println("Kết quả của bạn là:");
-        System.out.println(rules.rule1(clauses.get(q1-1),
-                clauses.get(q2-1), clauses.get(q3-1), index) +"-"+
-                rules.rule2(clauses.get(q1-1),
-                        clauses.get(q2-1), clauses.get(q3-1), index) +"-"+
-                rules.rule3(clauses.get(q1-1),
-                        clauses.get(q2-1), clauses.get(q3-1)) +"-"+
-                rules.rule4(clauses.get(q1-1),
-                        clauses.get(q2-1), clauses.get(q3-1)));
+        System.out.println(rules.rule1(clauses.get(q1),
+                clauses.get(q2), clauses.get(q3), index) +"-"+
+                rules.rule2(clauses.get(q1),
+                        clauses.get(q2), clauses.get(q3), index) +"-"+
+                rules.rule3(clauses.get(q1),
+                        clauses.get(q2), clauses.get(q3)) +"-"+
+                rules.rule4(clauses.get(q1),
+                        clauses.get(q2), clauses.get(q3)));
+    }
+
+    public boolean checkString(String s){ // kiểm tra chuỗi người dùng nhập vào
+        String regex = "^[AEPBTDKGIO][AEPBTDKGIO][AEPBTDKGIO]-[1-4]$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(s);
+        if (matcher.find()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public int convert(String s){
+        if (s.compareTo("A") == 0) {
+            return 0;
+        }
+        if (s.compareTo("E") == 0) {
+            return 1;
+        }
+        if (s.compareTo("P") == 0) {
+            return 2;
+        }
+        if (s.compareTo("B") == 0) {
+            return 3;
+        }
+        if (s.compareTo("T") == 0) {
+            return 4;
+        }
+        if (s.compareTo("D") == 0) {
+            return 5;
+        }
+        if (s.compareTo("K") == 0) {
+            return 6;
+        }
+        if (s.compareTo("G") == 0) {
+            return 7;
+        }
+        if (s.compareTo("I") == 0) {
+            return 8;
+        }
+        if (s.compareTo("O") == 0) {
+            return 9;
+        }
+       return -1;
     }
 
     public boolean checkResult(Clause q1, Clause q2, Clause q3, int figure){
