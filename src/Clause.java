@@ -1,14 +1,14 @@
-public class Quantifier {
+public class Clause {
     private String sign;
     private String quantity;
     private boolean quality;  //true is affirmative, fale is negative
     private int subject;
     private int predicate;
 
-    public Quantifier() {
+    public Clause() {
     }
 
-    public Quantifier(String sign, String quantity, boolean quality, int subject, int predicate) {
+    public Clause(String sign, String quantity, boolean quality, int subject, int predicate) {
         this.sign = sign;
         this.quantity = quantity;
         this.quality = quality;
@@ -58,7 +58,7 @@ public class Quantifier {
 
     @Override
     public String toString() {
-        return "Quantifier{" +
+        return "Clause{" +
                 "sign='" + sign + '\'' +
                 ", quantity='" + quantity + '\'' +
                 ", quality=" + quality +

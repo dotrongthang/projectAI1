@@ -1,6 +1,6 @@
-public class Law {
+public class Rules {
 
-    public boolean law1(Quantifier q1, Quantifier q2, Quantifier q3, int figure){
+    public boolean rule1(Clause q1, Clause q2, Clause q3, int figure){
         int sum = 0;
         switch (figure){
             case 1: sum = q1.getSubject() + q2.getPredicate();
@@ -20,7 +20,7 @@ public class Law {
         }
     }
 
-    public boolean law2(Quantifier q1, Quantifier q2, Quantifier q3, int figure){
+    public boolean rule2(Clause q1, Clause q2, Clause q3, int figure){
         int index1 = 0;
         int index2 = 0;
 
@@ -46,7 +46,7 @@ public class Law {
         }
     }
 
-    public boolean law3(Quantifier q1, Quantifier q2, Quantifier q3){
+    public boolean rule3(Clause q1, Clause q2, Clause q3){
         if (q1.getQuality() | q2.getQuality()){
             return true;
         }else {
@@ -54,7 +54,7 @@ public class Law {
         }
     }
 
-    public boolean law4(Quantifier q1, Quantifier q2, Quantifier q3) {
+    public boolean rule4(Clause q1, Clause q2, Clause q3) {
 
         if (!(q3.getQuality())) {
             if (!(q1.getQuality()) | !(q2.getQuality())) {
