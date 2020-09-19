@@ -1,127 +1,226 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Methods {
+public class Methods extends JFrame {
     public ArrayList<Clause> clauses = new ArrayList<>();
     public int q1 = 0, q2 = 0, q3 = 0, index;
-    public Scanner scanner = new Scanner(System.in);
     Rules rules = new Rules();
+    JComboBox cbo1, cbo2, cbo3;  //combo box
+    JTextField txtS1, txtS2, txtP1, txtP2, txtS3, txtP3; //lưu dữ liệu người dùng nhập
+    String[] arrayClause = {"Tất cả S là P", "Tất cả S không là P", "Gần như tất cả S là P",
+            "Gần như tất cả S không là P", "Hầu hết S là P", "Hầu hết S không là P"
+            , "Nhiều S là P", "Nhiều S không là P", "Một vài S là P", "Một vài S không là P"} ;
 
-    public ArrayList<Clause> addData(ArrayList<Clause> quantifiers){
-        Clause q1 = new Clause("A", "universal", true, 5, 1);
-        Clause q2 = new Clause("E", "universal", false, 5, 5);
-        Clause q3 = new Clause("P", "predominant", true, 4, 1);
-        Clause q4 = new Clause("B", "predominant", false, 4, 5);
-        Clause q5 = new Clause("T", "majority", true, 3, 1);
-        Clause q6 = new Clause("D", "majority", false, 3, 5);
-        Clause q7 = new Clause("K", "common", true, 2, 1);
-        Clause q8 = new Clause("G", "common", false, 2, 5);
-        Clause q9 = new Clause("I", "particular", true, 1, 1);
-        Clause q10 = new Clause("O", "particular", false, 1, 5);
+    public void initUI(){
+        addData(clauses);
+        JTabbedPane myTable = new JTabbedPane();
+        JPanel checkPn = new JPanel();
+        JPanel showPn = new JPanel();
+        createClause1(checkPn, "Chọn loại tiền đề 1: ");
+        createClause2(checkPn, "Chọn loại tiền đề 2: ");
+        createClause3(checkPn, "Chọn loại mệnh đề: ");
+        createButton(checkPn);
+        myTable.add(checkPn,"Kiểm tra");
+        myTable.add(showPn,"Xem kết quả");
 
-        clauses.add(q1);
-        clauses.add(q2);
-        clauses.add(q3);
-        clauses.add(q4);
-        clauses.add(q5);
-        clauses.add(q6);
-        clauses.add(q7);
-        clauses.add(q8);
-        clauses.add(q9);
-        clauses.add(q10);
+        Container con = getContentPane();
+        con.add(myTable);
 
-        return clauses;
     }
 
-    public void case1(){
-        String s;
-        boolean b;
+    public void createClause1(JPanel jPanel, String s){
+        jPanel.setLayout(null);
 
-        do {
-            System.out.println("------------------");
-            System.out.println("Mời bạn nhập tam đoạn luận bất kì dạng xxx-y:" + "\n"
-                    + "(Trong đó x thuộc {A,E,P,B,T,D,K,G,I,O}, y thuộc [1,4]");
-            s = scanner.nextLine();
-            b = checkString(s);
-            if (!b){
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
-                System.out.println("Bạn nhập không đúng định dạng, vui lòng nhập lại!");
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
+        JLabel lblclause = new JLabel(s);
+        lblclause.setBounds(20,50,120,25);
+        jPanel.add(lblclause);
+
+        cbo1 = new JComboBox();
+        addToCbo(cbo1, arrayClause);
+        cbo1.setBounds(140,50,190,25);
+        jPanel.add(cbo1);
+
+        JLabel lblS = new JLabel("Nhập S: ");
+        lblS.setBounds(340,50,50,25);
+        jPanel.add(lblS);
+
+        txtS1 = new JTextField();
+        txtS1.setBounds(400,50,200,25);
+        jPanel.add(txtS1);
+
+        JLabel lblP = new JLabel("Nhập P: ");
+        lblP.setBounds(610,50,50,25);
+        jPanel.add(lblP);
+
+        txtP1 = new JTextField();
+        txtP1.setBounds(670,50,200,25);
+        jPanel.add(txtP1);
+    }
+
+    public void createClause2(JPanel jPanel, String s){
+        jPanel.setLayout(null);
+
+        JLabel lblclause = new JLabel(s);
+        lblclause.setBounds(20,100,120,25);
+        jPanel.add(lblclause);
+
+        cbo2 = new JComboBox();
+        addToCbo(cbo2, arrayClause);
+        cbo2.setBounds(140,100,190,25);
+        jPanel.add(cbo2);
+
+        JLabel lblS = new JLabel("Nhập S: ");
+        lblS.setBounds(340,100,50,25);
+        jPanel.add(lblS);
+
+        txtS2 = new JTextField();
+        txtS2.setBounds(400,100,200,25);
+        jPanel.add(txtS2);
+
+        JLabel lblP = new JLabel("Nhập P: ");
+        lblP.setBounds(610,100,50,25);
+        jPanel.add(lblP);
+
+        txtP2 = new JTextField();
+        txtP2.setBounds(670,100,200,25);
+        jPanel.add(txtP2);
+    }
+
+    public void createClause3(JPanel jPanel, String s){
+        jPanel.setLayout(null);
+
+        JLabel lblclause = new JLabel(s);
+        lblclause.setBounds(20,150,120,25);
+        jPanel.add(lblclause);
+
+        cbo3 = new JComboBox();
+        addToCbo(cbo3, arrayClause);
+        cbo3.setBounds(140,150,190,25);
+        jPanel.add(cbo3);
+
+        JLabel lblS = new JLabel("Nhập S: ");
+        lblS.setBounds(340,150,50,25);
+        jPanel.add(lblS);
+
+        txtS3 = new JTextField();
+        txtS3.setBounds(400,150,200,25);
+        jPanel.add(txtS3);
+
+        JLabel lblP = new JLabel("Nhập P: ");
+        lblP.setBounds(610,150,50,25);
+        jPanel.add(lblP);
+
+        txtP3 = new JTextField();
+        txtP3.setBounds(670,150,200,25);
+        jPanel.add(txtP3);
+    }
+
+
+    public void addToCbo(JComboBox cbo, String[] s){
+        for (int i = 0; i < 10; i++) {
+            cbo.addItem(s[i]);
+        }
+    }
+
+    public void createButton(JPanel jPanel){
+        JButton okBtn = new JButton("Kiểm tra");
+        okBtn.setBounds(300,250,100,40);
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showConfirmDialog(null,checkResult(),"Kết quả",0);
+
             }
-        }while (!b);
+        });
+        jPanel.add(okBtn);
 
-        char[] c = s.toCharArray();
-        if (convert(String.valueOf(c[0])) >= 0){
-            q1 = convert(String.valueOf(c[0]));
-        }
-        if (convert(String.valueOf(c[1])) >= 0){
-            q2 = convert(String.valueOf(c[1]));
-        }
-        if (convert(String.valueOf(c[2])) >= 0){
-            q3 = convert(String.valueOf(c[2]));
-        }
-        index = Integer.parseInt(String.valueOf(c[4]));
+        JButton exitBtn = new JButton("Thoát");
+        exitBtn.setBounds(500,250,100,40);
+        exitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        jPanel.add(exitBtn);
+    }
 
-//        System.out.println("Lựa chọn của bạn là: " + clauses.get(q1).getSign() +
-//                clauses.get(q2).getSign() + clauses.get(q3).getSign() + "-" + index);
+    public int checkFigure(){
+        if (txtS1.getText().length() != 0 && txtS2.getText().length() != 0 &&
+                txtP1.getText().length() != 0 && txtP2.getText().length() != 0){
+            if (txtS1.getText().compareTo(txtP2.getText()) == 0){
+                return 1;
+            }else {
+                if (txtS1.getText().compareTo(txtS2.getText()) == 0){
+                    return 3;
+                }
+                if (txtP1.getText().compareTo(txtP2.getText()) == 0){
+                    return 2;
+                }
+                if (txtP1.getText().compareTo(txtS2.getText()) == 0){
+                    return 4;
+                }
+            }
+        }
+        return -1;
+    }
 
-        System.out.println("Kết quả của bạn là:");
-        System.out.println(rules.rule1(clauses.get(q1),
+    public String checkResult(){
+        String s = "";
+        q1 = cbo1.getSelectedIndex();
+        q2 = cbo2.getSelectedIndex();
+        q3 = cbo3.getSelectedIndex();
+        index = checkFigure();
+
+        if (index == -1){
+            s = "Vui lòng nhập đầy đủ thông tin!";
+        }else {
+            s = rules.rule1(clauses.get(q1),
                 clauses.get(q2), clauses.get(q3), index) +"-"+
                 rules.rule2(clauses.get(q1),
                         clauses.get(q2), clauses.get(q3), index) +"-"+
                 rules.rule3(clauses.get(q1),
                         clauses.get(q2), clauses.get(q3)) +"-"+
                 rules.rule4(clauses.get(q1),
-                        clauses.get(q2), clauses.get(q3)));
+                        clauses.get(q2), clauses.get(q3));
+        }
+        return s;
     }
 
-    public boolean checkString(String s){ // kiểm tra chuỗi người dùng nhập vào
-        String regex = "^[AEPBTDKGIO][AEPBTDKGIO][AEPBTDKGIO]-[1-4]$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(s);
-        if (matcher.find()){
-            return true;
-        }else {
-            return false;
-        }
+    public ArrayList<Clause> addData(ArrayList<Clause> quantifiers){
+        clauses.add(new Clause("A", "universal", true, 5, 1));
+        clauses.add(new Clause("E", "universal", false, 5, 5));
+        clauses.add(new Clause("P", "predominant", true, 4, 1));
+        clauses.add(new Clause("B", "predominant", false, 4, 5));
+        clauses.add(new Clause("T", "majority", true, 3, 1));
+        clauses.add(new Clause("D", "majority", false, 3, 5));
+        clauses.add(new Clause("K", "common", true, 2, 1));
+        clauses.add(new Clause("G", "common", false, 2, 5));
+        clauses.add(new Clause("I", "particular", true, 1, 1));
+        clauses.add(new Clause("O", "particular", false, 1, 5));
+
+        return clauses;
     }
 
-    public int convert(String s){
-        if (s.compareTo("A") == 0) {
-            return 0;
-        }
-        if (s.compareTo("E") == 0) {
-            return 1;
-        }
-        if (s.compareTo("P") == 0) {
-            return 2;
-        }
-        if (s.compareTo("B") == 0) {
-            return 3;
-        }
-        if (s.compareTo("T") == 0) {
-            return 4;
-        }
-        if (s.compareTo("D") == 0) {
-            return 5;
-        }
-        if (s.compareTo("K") == 0) {
-            return 6;
-        }
-        if (s.compareTo("G") == 0) {
-            return 7;
-        }
-        if (s.compareTo("I") == 0) {
-            return 8;
-        }
-        if (s.compareTo("O") == 0) {
-            return 9;
-        }
-       return -1;
-    }
+//        System.out.println("Kết quả của bạn là:");
+//        System.out.println(rules.rule1(clauses.get(q1),
+//                clauses.get(q2), clauses.get(q3), index) +"-"+
+//                rules.rule2(clauses.get(q1),
+//                        clauses.get(q2), clauses.get(q3), index) +"-"+
+//                rules.rule3(clauses.get(q1),
+//                        clauses.get(q2), clauses.get(q3)) +"-"+
+//                rules.rule4(clauses.get(q1),
+//                        clauses.get(q2), clauses.get(q3)));
+//    }
+
+
+
 
     public boolean checkResult(Clause q1, Clause q2, Clause q3, int figure){
         if (rules.rule1(q1,q2,q3,figure) && rules.rule2(q1,q2,q3,figure) &&
@@ -155,17 +254,5 @@ public class Methods {
         System.out.println("---------------------------------");
         System.out.println("Có " + index + " kết quả phù hợp");
     }
-
-    public void showMenu(){
-        addData(clauses);
-        Main main = new Main();
-
-        System.out.println("----------MENU----------");
-        System.out.println("1. Kiểm tra tam đoạn luận bất kỳ.");
-        System.out.println("2. Xem tất cả kết quả thỏa mãn.");
-        System.out.println("3. Thoát.");
-        System.out.println("------------------------");
-        System.out.println("Mời bạn chọn !");
-        }
 
 }
