@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class Methods extends JFrame {
     public ArrayList<Clause> clauses = new ArrayList<>();
-    public int q1 = 0, q2 = 0, q3 = 0, index;
+    public int q1 = 0, q2 = 0, q3 = 0, index;  //xác loại tam đoạn luận
     Rules rules = new Rules();
     boolean checkShow = true;
     ArrayList<String> listResult = new ArrayList<>();
@@ -23,15 +23,15 @@ public class Methods extends JFrame {
     public void initUI(){
         addData(clauses);
         JTabbedPane myTable = new JTabbedPane();
-        JPanel checkPn = new JPanel();
-        JPanel showPn = new JPanel();
+        JPanel checkPn = new JPanel();  //layout kiểm tra
+        JPanel showPn = new JPanel();   //layout danh sách
         createClause1(checkPn, "Choose type of clause 1: ");
         createClause2(checkPn, "Choose type of clause 2: ");
         createClause3(checkPn, "Choose type of clause 3: ");
         createButton(checkPn);
         myTable.add(checkPn,"Check");
 
-        createTable(showPn);
+        createLayoutShow(showPn);
         myTable.add(showPn,"Show Result");
 
         Container con = getContentPane();
@@ -39,7 +39,7 @@ public class Methods extends JFrame {
 
     }
 
-    public void createClause1(JPanel jPanel, String s){
+    public void createClause1(JPanel jPanel, String s){ //tiền đề 1
         jPanel.setLayout(null);
 
         JLabel lblclause = new JLabel(s);
@@ -127,7 +127,7 @@ public class Methods extends JFrame {
     }
 
 
-    public void addToCbo(JComboBox cbo, String[] s){
+    public void addToCbo(JComboBox cbo, String[] s){  //tạo combo box
         for (int i = 0; i < 10; i++) {
             cbo.addItem(s[i]);
         }
@@ -156,7 +156,7 @@ public class Methods extends JFrame {
         jPanel.add(exitBtn);
     }
 
-    public int checkFigure(){
+    public int checkFigure(){  //xác định loại công thức
         if (txtS1.getText().length() != 0 && txtS2.getText().length() != 0 &&
                 txtP1.getText().length() != 0 && txtP2.getText().length() != 0){
             if (txtS1.getText().compareTo(txtP2.getText()) == 0){
@@ -213,7 +213,7 @@ public class Methods extends JFrame {
         return clauses;
     }
 
-    public void createTable(JPanel jPanel){
+    public void createLayoutShow(JPanel jPanel){ //tạo layout danh sách kết quả
         jPanel.setLayout(null);
         JButton showBtn = new JButton("Show");
         showBtn.setBounds(300,20,100,25);
@@ -242,7 +242,7 @@ public class Methods extends JFrame {
         jPanel.add(exitShow);
     }
 
-    public void createJlabel(JPanel jPanel){
+    public void createJlabel(JPanel jPanel){ //in danh sách
         int x = -70, y = 50, w = 70, h = 20, count = 0;
         for (int i = 0; i < listResult.size(); i++) {
             if (count != 0 && count % 10 == 0){
