@@ -12,6 +12,7 @@ public class Methods extends JFrame {
     public ArrayList<Clause> clauses = new ArrayList<>();
     public int q1 = 0, q2 = 0, q3 = 0, index;
     Rules rules = new Rules();
+    boolean checkShow = true;
     ArrayList<String> listResult = new ArrayList<>();
     JComboBox cbo1, cbo2, cbo3;  //combo box
     JTextField txtS1, txtS2, txtP1, txtP2, txtS3, txtP3; //lưu dữ liệu người dùng nhập
@@ -212,37 +213,52 @@ public class Methods extends JFrame {
         return clauses;
     }
 
-//        System.out.println("Kết quả của bạn là:");
-//        System.out.println(rules.rule1(clauses.get(q1),
-//                clauses.get(q2), clauses.get(q3), index) +"-"+
-//                rules.rule2(clauses.get(q1),
-//                        clauses.get(q2), clauses.get(q3), index) +"-"+
-//                rules.rule3(clauses.get(q1),
-//                        clauses.get(q2), clauses.get(q3)) +"-"+
-//                rules.rule4(clauses.get(q1),
-//                        clauses.get(q2), clauses.get(q3)));
-//    }
-
-
     public void createTable(JPanel jPanel){
-        jPanel.setLayout(new FlowLayout());
+        jPanel.setLayout(null);
         JButton showBtn = new JButton("Show");
-        showBtn.setBounds(440,20,70,25);
+        showBtn.setBounds(300,20,100,25);
         showBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showBtn.setVisible(false);
-                showResult(jPanel);
-                JLabel jLabel = new JLabel(listResult.toString());
-                jPanel.add(jLabel);
+                if (checkShow){
+                    showResult(jPanel);
+                    createJlabel(jPanel);
+                    jPanel.setVisible(false);
+                    checkShow = false;
+                }
             }
         });
+        jPanel.setVisible(true);
         jPanel.add(showBtn);
 
-//        JLabel lblResult = new JLabel(showResult(jPanel));
-//        lblResult.setBounds(20,100,910,200);
-//        jPanel.add(lblResult);
+        JButton exitShow = new JButton("Exit");
+        exitShow.setBounds(500,20,100,25);
+        exitShow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        jPanel.add(exitShow);
+    }
 
+    public void createJlabel(JPanel jPanel){
+        int x = -70, y = 50, w = 70, h = 20, count = 0;
+        for (int i = 0; i < listResult.size(); i++) {
+            if (count != 0 && count % 10 == 0){
+                x = -70;
+                y += 40;
+            }
+            x  += 90;
+            JLabel jLabel = new JLabel(listResult.get(i));
+            jLabel.setBounds(x, y, w, h);
+            jPanel.add(jLabel);
+            count++;
+        }
+        y += 30;
+        JLabel jLabel = new JLabel("There are " + listResult.size() + " result");
+        jLabel.setBounds(400,y,200,25);
+        jPanel.add(jLabel);
     }
 
     public boolean checkResult(Clause q1, Clause q2, Clause q3, int figure){
@@ -255,8 +271,7 @@ public class Methods extends JFrame {
 
     }
 
-    public String showResult(JPanel jPanel){
-        String s = "";
+    public void showResult(JPanel jPanel){
         int index12 = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -272,7 +287,6 @@ public class Methods extends JFrame {
                 }
             }
         }
-        return s;
     }
 
 }
