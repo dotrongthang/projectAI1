@@ -28,6 +28,7 @@ public class Methods extends JFrame {
         createClause1(checkPn, "Choose type of clause 1: ");
         createClause2(checkPn, "Choose type of clause 2: ");
         createClause3(checkPn, "Choose type of clause 3: ");
+        createExample(checkPn);
         createButton(checkPn);
         myTable.add(checkPn,"Check");
 
@@ -133,20 +134,33 @@ public class Methods extends JFrame {
         }
     }
 
+    public void createExample(JPanel jPanel){
+        JLabel jLabel = new JLabel("Example: All cats are animals");
+        jLabel.setBounds(20,200,200,25);
+        jLabel.setForeground(Color.RED);
+        jPanel.add(jLabel);
+
+        JLabel jLabel2 = new JLabel("Type: All S are P, input S: cats, input P: animals");
+        jLabel2.setBounds(20,225,400,25);
+        jLabel2.setForeground(Color.RED);
+        jPanel.add(jLabel2);
+    }
+
     public void createButton(JPanel jPanel){
         JButton okBtn = new JButton("Check");
-        okBtn.setBounds(300,250,100,40);
+        okBtn.setBounds(300,270,100,40);
         okBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,checkResult(),"Result",1);
-
+                txtS1.setText("");txtS2.setText("");txtS3.setText("");
+                txtP1.setText("");txtP2.setText("");txtP3.setText("");
             }
         });
         jPanel.add(okBtn);
 
         JButton exitBtn = new JButton("Exit");
-        exitBtn.setBounds(500,250,100,40);
+        exitBtn.setBounds(500,270,100,40);
         exitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -186,12 +200,12 @@ public class Methods extends JFrame {
         if (index == -1){
             s = "Please enter enough information!";
         }else {
-            s = rules.rule1(clauses.get(q1),
-                clauses.get(q2), clauses.get(q3), index) +"-"+
+            s = "R1:" + rules.rule1(clauses.get(q1),
+                clauses.get(q2), clauses.get(q3), index) +" - "+ "R2:" +
                 rules.rule2(clauses.get(q1),
-                        clauses.get(q2), clauses.get(q3), index) +"-"+
+                        clauses.get(q2), clauses.get(q3), index) +" - " + "R3:" +
                 rules.rule3(clauses.get(q1),
-                        clauses.get(q2), clauses.get(q3)) +"-"+
+                        clauses.get(q2), clauses.get(q3)) +" - "+ "R4:" +
                 rules.rule4(clauses.get(q1),
                         clauses.get(q2), clauses.get(q3));
         }
@@ -215,8 +229,13 @@ public class Methods extends JFrame {
 
     public void createLayoutShow(JPanel jPanel){ //tạo layout danh sách kết quả
         jPanel.setLayout(null);
+        JLabel jLabel = new JLabel("Show all the results satisfying the 4 rules R1, R2, R3, R4");
+        jLabel.setBounds(300, 15, 500, 25);
+        jLabel.setForeground(Color.RED);
+        jPanel.add(jLabel);
+
         JButton showBtn = new JButton("Show");
-        showBtn.setBounds(300,20,100,25);
+        showBtn.setBounds(300,50,100,25);
         showBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -232,7 +251,7 @@ public class Methods extends JFrame {
         jPanel.add(showBtn);
 
         JButton exitShow = new JButton("Exit");
-        exitShow.setBounds(500,20,100,25);
+        exitShow.setBounds(500,50,100,25);
         exitShow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -243,19 +262,19 @@ public class Methods extends JFrame {
     }
 
     public void createJlabel(JPanel jPanel){ //in danh sách
-        int x = -70, y = 50, w = 70, h = 20, count = 0;
+        int x = -30, y = 90, w = 60, h = 20, count = 0;
         for (int i = 0; i < listResult.size(); i++) {
-            if (count != 0 && count % 10 == 0){
-                x = -70;
-                y += 40;
+            if (count != 0 && count % 12 == 0){
+                x = -30;
+                y += 30;
             }
-            x  += 90;
+            x  += 70;
             JLabel jLabel = new JLabel(listResult.get(i));
             jLabel.setBounds(x, y, w, h);
             jPanel.add(jLabel);
             count++;
         }
-        y += 30;
+        y += 50;
         JLabel jLabel = new JLabel("There are " + listResult.size() + " result");
         jLabel.setBounds(400,y,200,25);
         jPanel.add(jLabel);
@@ -279,7 +298,7 @@ public class Methods extends JFrame {
                     for (int l = 1; l <= 4; l++) {
                         if (checkResult(clauses.get(i), clauses.get(j), clauses.get(k), l)){
                             String string = (clauses.get(i).getSign() + clauses.get(j).getSign() +
-                                    clauses.get(k).getSign() + "-" + l +  ":" + "TTTT");
+                                    clauses.get(k).getSign() + "-" + l);
                             listResult.add(string);
                             index12++;
                         }
